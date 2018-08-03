@@ -1,7 +1,7 @@
 # Time Manager
 Приложения для измерения проведенного времени над задачами
 
-**Демо: https://vetsb-time-manager.herokuapp.com**
+**Демо:** https://vetsb-time-manager.herokuapp.com
 
 ## Установка
 ```shell
