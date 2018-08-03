@@ -36,8 +36,16 @@ export const secondsToTime = (seconds) => {
 
 export const secondsToTimeWithMeasure = (seconds) => {
 	const time = secondsToTime(seconds);
+	const measure = getMeasureBySeconds(seconds);
+	let minutesText = "";
 
-	return time + " " + decWord(time, MEASURES_FORMS[getMeasureBySeconds(seconds)])
+	if (measure === 2) {
+		let minutes = secondsToTime(seconds - time*60*60);
+
+		minutesText = " " + minutes + " " + decWord(minutes, MEASURES_FORMS[getMeasureBySeconds(minutes*60)]);
+	}
+
+	return time + " " + decWord(time, MEASURES_FORMS[getMeasureBySeconds(seconds)]) + minutesText;
 };
 
 export const getMeasureBySeconds = (time) => {

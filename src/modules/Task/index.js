@@ -248,7 +248,17 @@ class Task extends Component {
 							<ListItem>
 								<ListItemText
 									primary="Осталось"
-									secondary={leftSeconds > 0 ? secondsToTimeWithMeasure(leftSeconds) : (deadlineSeconds === 0 ? "Нет срока" : "Завершено")}/>
+									secondary={
+										leftSeconds > 0
+											?
+											secondsToTimeWithMeasure(leftSeconds)
+											:
+											(deadlineSeconds === 0
+													?
+													"Нет срока"
+													:
+													(<React.Fragment>Завершено <i>(Переработка {secondsToTimeWithMeasure(spendSeconds - deadlineSeconds)})</i></React.Fragment>)
+											)}/>
 							</ListItem>
 
 							{task.description.length > 0 ? (
