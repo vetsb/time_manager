@@ -16,12 +16,10 @@ const styles = theme => ({
 		fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
 		marginBottom: 35,
 	},
-	buttons: {
-		margin: -theme.spacing.unit/4
-	},
-	button: {
-		margin: theme.spacing.unit/4
-	},
+
+	buttons: theme.lineButtons,
+	button: theme.lineButton,
+
 	buttonInactive: {
 		opacity: 0.7,
 		pointerEvents: "none"

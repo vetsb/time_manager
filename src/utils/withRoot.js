@@ -4,27 +4,54 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 const spacing = 24;
 const theme = createMuiTheme({
-	// palette: {
-	// 	primary: {
-	// 		light: purple[300],
-	// 		main: purple[500],
-	// 		dark: purple[700],
-	// 	},
-	// 	secondary: {
-	// 		light: green[300],
-	// 		main: green[500],
-	// 		dark: green[700],
-	// 	},
-	// },
 	spacing: {
 		unit: spacing
 	},
-	container: {
-		marginLeft: -spacing/2,
-		marginRight: -spacing/2
+	wrapper: {
+		maxWidth: 720,
+		marginLeft: 'auto',
+		marginRight: 'auto',
+		backgroundColor: "#FFF",
+		minHeight: '100vh',
 	},
-	item: {
-		padding: spacing,
+
+	toolbarTitle: {
+		flex: 1,
+	},
+	toolbarArrowBack: {
+		marginLeft: -spacing/2,
+		marginRight: spacing/2,
+	},
+	toolbarButtons: {
+		marginRight: -spacing/2,
+	},
+
+	inner: {
+		paddingTop: spacing,
+		paddingBottom: spacing,
+	},
+	container: {
+		paddingLeft: spacing,
+		paddingRight: spacing,
+	},
+
+	lineButtons: {
+		margin: -spacing/4
+	},
+	lineButton: {
+		margin: spacing/4
+	},
+
+	progressContainer: {
+		width: '100vw',
+		height: '100vh',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+
+	errorTitle: {
+		marginBottom: '1em',
 	}
 });
 

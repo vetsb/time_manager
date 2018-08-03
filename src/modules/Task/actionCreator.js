@@ -22,6 +22,10 @@ export const getTaskResult = (task) => {
 };
 
 export const editTask = (task) => {
+	const timeline = Object.assign([], task.timeline);
+
+	task.timeline = undefined;
+
 	new Api('tasks/' + task.id, {}, {
 		method: "PATCH",
 		headers: {
@@ -30,19 +34,12 @@ export const editTask = (task) => {
 		},
 		body: JSON.stringify(task),
 	}, () => {
+		task.timeline = timeline;
 		store.dispatch(getTaskResult(task));
 	});
 
 	return {
 		type: types.EDIT_TASK
-	}
-};
-
-export const editTaskResult = (id) => {
-	store.dispatch(getTask(id));
-
-	return {
-		type: types.EDIT_TASK_RESULT
 	}
 };
 

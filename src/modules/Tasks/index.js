@@ -32,26 +32,18 @@ import DeleteTasksDialog from "./dialogs/DeleteTasksDialog";
 import TaskItem from "./components/TaskItem";
 
 const styles = theme => ({
-	wrapper: {
-		maxWidth: 360,
-		marginLeft: 'auto',
-		marginRight: 'auto',
-	},
-	title: {
-		flex: 1
-	},
-	buttons: {
-		marginRight: -12
-	},
-	progress: {
-		margin: theme.spacing.unit + "px auto",
-		display: "block"
-	}
+	wrapper: theme.wrapper,
+
+	toolbarTitle: theme.toolbarTitle,
+	toolbarButtons: theme.toolbarButtons,
+
+	progressContainer: theme.progressContainer,
 });
 
 class Tasks extends Component {
 	state = {
-		tasks: null,
+		tasks: [],
+		loading: true,
 		visibleCheckboxes: false,
 		checked: [],
 		openAddTaskDialog: false,
@@ -65,7 +57,8 @@ class Tasks extends Component {
 
 		this.unsubscibe = store.subscribe(() => {
 			this.setState({
-				tasks: store.getState().tasks
+				tasks: store.getState().tasks,
+				loading: false,
 			});
 		});
 	}
@@ -179,24 +172,30 @@ class Tasks extends Component {
 	render() {
 		const { classes } = this.props;
 
+		if (this.state.loading) {
+			return (
+				<div className={classes.progressContainer}>
+					<CircularProgress size={60} />
+				</div>
+			);
+		}
+
 		return (
 			<Grid className={classes.wrapper}>
 				<AppBar position="static">
 					<Toolbar>
-						<Typography variant="title" color="inherit" className={classes.title}>
+						<Typography variant="title" color="inherit" className={classes.toolbarTitle}>
 							Задачи
 						</Typography>
-						<div className={classes.buttons}>
-							{this.state.tasks === null || this.state.tasks.length === 0 ? null : (
-								<IconButton
-									aria-haspopup="true"
-									color="inherit"
-									onClick={this.toggleCheckboxes}>
-									{this.state.visibleCheckboxes ? (
-										this.state.checked.length === 0 ? <DoneIcon /> : <DeleteIcon />
-									) : <EditIcon />}
-								</IconButton>
-							)}
+						<div className={classes.toolbarButtons}>
+							<IconButton
+								aria-haspopup="true"
+								color="inherit"
+								onClick={this.toggleCheckboxes}>
+								{this.state.visibleCheckboxes ? (
+									this.state.checked.length === 0 ? <DoneIcon /> : <DeleteIcon />
+								) : <EditIcon />}
+							</IconButton>
 
 							<IconButton
 								aria-haspopup="true"
@@ -209,25 +208,21 @@ class Tasks extends Component {
 				</AppBar>
 
 				<List>
-					{this.state.tasks === null ? (
-						<CircularProgress className={classes.progress} />
+					{this.state.tasks.length === 0 ? (
+						<EmptyListLabel/>
 					) : (
-						this.state.tasks.length === 0 ? (
-							<EmptyListLabel/>
-						) : (
-							this.state.tasks.map((item) => {
-								return (
-									<TaskItem
-										key={item.id}
-										item={item}
-										visibleCheckbox={this.state.visibleCheckboxes}
-										checked={this.state.checked.indexOf(item.id) !== -1}
-										onLongPress={this.handleTaskLongPress}
-										onClick={this.linkToTask}
-										onChange={this.handleCheckboxChange}/>
-								);
-							})
-						)
+						this.state.tasks.map((item) => {
+							return (
+								<TaskItem
+									key={item.id}
+									item={item}
+									visibleCheckbox={this.state.visibleCheckboxes}
+									checked={this.state.checked.indexOf(item.id) !== -1}
+									onLongPress={this.handleTaskLongPress}
+									onClick={this.linkToTask}
+									onChange={this.handleCheckboxChange}/>
+							);
+						})
 					)}
 				</List>
 
@@ -254,6 +249,5 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({fetchTasks: fetchTasks, addTask: addTask, deleteTasks: deleteTasks}, dispatch);
 }
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withRoot(withStyles(styles)(Tasks))));

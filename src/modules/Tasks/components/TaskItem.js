@@ -6,9 +6,9 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Checkbox from "@material-ui/core/Checkbox";
 
 const styles = () => ({
-	item: {
-		background: "#FFF"
-	},
+	// item: {
+	// 	background: "#FFF"
+	// },
 });
 
 const handleMouseup = () => {

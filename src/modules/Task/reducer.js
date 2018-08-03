@@ -10,7 +10,6 @@ export default (state = {}, action) => {
 
 		case types.GET_TASK:
 		case types.EDIT_TASK:
-		case types.EDIT_TASK_RESULT:
 		case types.DELETE_CURRENT_TASK:
 		default:
 			return state;

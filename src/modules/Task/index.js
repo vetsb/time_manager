@@ -36,46 +36,20 @@ import AddTaskDialog from "../Tasks/dialogs/AddTaskDialog";
 import DeleteTaskDialog from "./dialogs/DeleteTaskDialog";
 
 const styles = theme => ({
-	wrapper: {
-		maxWidth: 360,
-		marginLeft: 'auto',
-		marginRight: 'auto',
-	},
-	listItem: {
-		background: "#FFF"
-	},
-	title: {
-		flex: 1
-	},
-	arrowBack: {
-		marginLeft: -12,
-		marginRight: 12,
-	},
-	buttons: {
-		marginRight: -12
-	},
-	bottomButtons: {
-		margin: -theme.spacing.unit/4
-	},
-	button: {
-		margin: theme.spacing.unit/4
-	},
-	inner: {
-		padding: theme.spacing.unit/2 + "px 0"
-	},
-	container: {
-		padding: theme.spacing.unit/2 + "px " + theme.spacing.unit + "px"
-	},
-	progressContainer: {
-		width: '100vw',
-		height: '100vh',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	titleError: {
-		marginBottom: '1em'
-	}
+	wrapper: theme.wrapper,
+
+	toolbarTitle: theme.toolbarTitle,
+	toolbarArrowBack: theme.toolbarArrowBack,
+	toolbarButtons: theme.toolbarButtons,
+
+	buttons: theme.lineButtons,
+	button: theme.lineButton,
+
+	inner: theme.inner,
+	container: theme.container,
+
+	progressContainer: theme.progressContainer,
+	errorTitle: theme.errorTitle,
 });
 
 class Task extends Component {
@@ -156,7 +130,7 @@ class Task extends Component {
 			} else {
 				console.log('groupByTimePeriod: You have to set a period! day | week | month | year');
 			}
-			// define object key
+
 			objPeriod[d] = objPeriod[d] || [];
 			objPeriod[d].push(obj[i]);
 		}
@@ -224,14 +198,17 @@ class Task extends Component {
 						<Toolbar>
 							<IconButton
 								color="inherit"
-								className={classes.arrowBack}
+								className={classes.toolbarArrowBack}
 								onClick={() => this.props.history.push('/')}>
 								<ArrowBackIcon />
 							</IconButton>
 
-							<Typography variant="title" color="inherit" className={classes.title}>Подробнее</Typography>
+							<Typography
+								variant="title"
+								color="inherit"
+								className={classes.toolbarTitle}>Подробнее</Typography>
 
-							<div className={classes.buttons}>
+							<div className={classes.toolbarButtons}>
 								<IconButton
 									color="inherit"
 									onClick={this.runTask}>
@@ -295,7 +272,7 @@ class Task extends Component {
 								})}
 							</Timeline>
 
-							<div className={classes.bottomButtons}>
+							<div className={classes.buttons}>
 								<Button
 									variant="contained"
 									color="primary"
@@ -361,7 +338,7 @@ class Task extends Component {
 					<div className={classes.container}>
 						<Typography
 							variant="headline"
-							className={classes.titleError}>
+							className={classes.errorTitle}>
 							Страница не найдена
 						</Typography>
 

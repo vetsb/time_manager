@@ -6,27 +6,7 @@
       "time": 37,
       "measure": 1,
       "deadline": 1525384740,
-      "id": 1,
-      "timeline": [
-        {
-          "id": 1,
-          "taskId": 1,
-          "seconds": 34333,
-          "createdAt": 1532932229
-        },
-        {
-          "id": 2,
-          "taskId": 1,
-          "seconds": 230,
-          "createdAt": 1533442229
-        },
-        {
-          "id": 3,
-          "taskId": 1,
-          "seconds": 123554,
-          "createdAt": 1533902229
-        }
-      ]
+      "id": 1
     },
     {
       "title": "Тест 2",
@@ -87,6 +67,13 @@
       "finished": true,
       "createdAt": 1533307506,
       "id": 6
+    },
+    {
+      "taskId": 1,
+      "seconds": 2,
+      "finished": true,
+      "createdAt": 1533322023,
+      "id": 7
     }
   ]
 }

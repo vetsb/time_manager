@@ -23,11 +23,7 @@ import {finishExecutionByTaskId, getNotFinishedExecutionByTaskId, increaseSecond
 import ExitDialog from "./dialogs/ExitDialog";
 
 const styles = theme => ({
-	wrapper: {
-		maxWidth: 360,
-		marginLeft: 'auto',
-		marginRight: 'auto',
-	},
+	wrapper: theme.wrapper,
 	arrowBack: {
 		marginLeft: -12,
 		marginRight: 12,
