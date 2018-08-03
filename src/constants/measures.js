@@ -1,8 +1,11 @@
-const MEASURES = [
+export const MEASURES = [
 	"секунды",
 	"минуты",
-	"часы",
-	"сутки"
+	"часы"
 ];
 
-export default MEASURES;
+export const MEASURES_FORMS = [
+	["секунда", "секунды", "секунд"],
+	["минута", "минуты", "минут"],
+	["час", "часа", "часов"],
+];
