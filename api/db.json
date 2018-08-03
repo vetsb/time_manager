@@ -9,5 +9,13 @@
       "id": 1
     }
   ],
-  "timeline": []
+  "timeline": [
+    {
+      "taskId": 1,
+      "seconds": 24,
+      "finished": true,
+      "createdAt": 1533325217,
+      "id": 1
+    }
+  ]
 }

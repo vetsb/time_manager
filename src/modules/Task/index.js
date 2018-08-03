@@ -42,7 +42,10 @@ const styles = theme => ({
 	toolbarArrowBack: theme.toolbarArrowBack,
 	toolbarButtons: theme.toolbarButtons,
 
-	buttons: theme.lineButtons,
+	buttons: {
+		...theme.lineButtons,
+		marginTop: 20,
+	},
 	button: theme.lineButton,
 
 	inner: theme.inner,
