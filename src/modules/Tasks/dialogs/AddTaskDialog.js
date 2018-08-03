@@ -12,7 +12,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 
 import {MEASURES} from '../../../constants/measures';
-import formDataEntries from 'form-data-entries';
+import formDataEntries from 'form-data-entries/index';
 
 import dateformat from 'dateformat';
 

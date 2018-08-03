@@ -127,12 +127,40 @@ class Task extends Component {
 		})
 	};
 
+	runTask = () => {
+		this.props.history.push('/' + this.state.task.id + '/run');
+	};
+
 	editTask = task => {
 		this.props.editTask(task);
 	};
 
 	deleteTask = () => {
 		this.props.deleteCurrentTask(this.state.task.id);
+	};
+
+	groupByTimePeriod = (obj, timestamp, period) => {
+		let objPeriod = {};
+		let oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+
+		for (let i = 0; i < obj.length; i++) {
+			let d = new Date(obj[i][timestamp] * 1000);
+			if (period === 'day') {
+				d = Math.floor(d.getTime() / oneDay);
+			} else if (period === 'week') {
+				d = Math.floor(d.getTime() / (oneDay * 7));
+			} else if (period === 'month') {
+				d = (d.getFullYear() - 1970) * 12 + d.getMonth();
+			} else if (period === 'year') {
+				d = d.getFullYear();
+			} else {
+				console.log('groupByTimePeriod: You have to set a period! day | week | month | year');
+			}
+			// define object key
+			objPeriod[d] = objPeriod[d] || [];
+			objPeriod[d].push(obj[i]);
+		}
+		return objPeriod;
 	};
 
 	render() {
@@ -152,7 +180,35 @@ class Task extends Component {
 			const deadlineSeconds = timeToSeconds(task.time, task.measure);
 			let spendSeconds = 0;
 
-			task.timeline.forEach(item => spendSeconds += item.seconds);
+			let timeline = Object.assign([], task.timeline);
+
+			timeline.sort((a, b) => {
+				if (a.createdAt > b.createdAt) {
+					return 1;
+				}
+
+				if (a.createdAt < b.createdAt) {
+					return -1;
+				}
+
+				return 0;
+			});
+
+			timeline.forEach(item => spendSeconds += item.seconds);
+
+			const groupedTimeline = this.groupByTimePeriod(timeline, 'createdAt', 'day');
+			let newTimeline = [];
+
+			Object.values(groupedTimeline).forEach(element => {
+				let el = Object.assign({}, element[0]);
+				el.seconds = 0;
+
+				element.forEach(item => {
+					el.seconds += item.seconds;
+				});
+
+				newTimeline.push(el);
+			});
 
 			let leftSeconds = deadlineSeconds - spendSeconds;
 
@@ -177,7 +233,8 @@ class Task extends Component {
 
 							<div className={classes.buttons}>
 								<IconButton
-									color="inherit">
+									color="inherit"
+									onClick={this.runTask}>
 									<PlayArrowIcon />
 								</IconButton>
 
@@ -223,14 +280,14 @@ class Task extends Component {
 
 						<div className={classes.container}>
 							<Timeline>
-								{task.timeline.map((item, key) => {
+								{newTimeline.map((item, key) => {
 									sumSeconds += item.seconds;
 
 									return (
 										<TimelineElement
 											key={item.id}
 											isStart={key === 0}
-											isEnd={sumSeconds >= deadlineSeconds && key === task.timeline.length - 1}
+											isEnd={sumSeconds >= deadlineSeconds && key === newTimeline.length - 1}
 											createdAt={item.createdAt}
 											time={secondsToTimeWithMeasure(item.seconds)}
 											color="#3f51b5"/>
