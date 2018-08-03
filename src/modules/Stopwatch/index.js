@@ -14,6 +14,7 @@ const styles = theme => ({
 		fontSize: 46,
 		color: '#000',
 		fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+		marginTop: 25,
 		marginBottom: 35,
 	},
 

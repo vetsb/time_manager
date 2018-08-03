@@ -3,11 +3,22 @@ import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 const spacing = 24;
+const breakpointValues = {
+	xs: 0,
+	sm: 576,
+	md: 768,
+	lg: 992,
+	xl: 1200,
+};
 const theme = createMuiTheme({
 	spacing: {
-		unit: spacing
+		unit: spacing,
+	},
+	breakpoints: {
+		values: breakpointValues,
 	},
 	wrapper: {
+		minWidth: 360,
 		maxWidth: 720,
 		marginLeft: 'auto',
 		marginRight: 'auto',
@@ -27,12 +38,22 @@ const theme = createMuiTheme({
 	},
 
 	inner: {
-		paddingTop: spacing,
-		paddingBottom: spacing,
+		paddingTop: 16,
+		paddingBottom: 16,
+
+		'@media (min-width: 576px)': {
+			paddingTop: spacing,
+			paddingBottom: spacing,
+		}
 	},
 	container: {
-		paddingLeft: spacing,
-		paddingRight: spacing,
+		paddingLeft: 16,
+		paddingRight: 16,
+
+		'@media (min-width: 576px)': {
+			paddingLeft: spacing,
+			paddingRight: spacing,
+		}
 	},
 
 	lineButtons: {

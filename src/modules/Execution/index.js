@@ -24,26 +24,13 @@ import ExitDialog from "./dialogs/ExitDialog";
 
 const styles = theme => ({
 	wrapper: theme.wrapper,
-	arrowBack: {
-		marginLeft: -12,
-		marginRight: 12,
-	},
-	inner: {
-		padding: theme.spacing.unit/2 + "px 0"
-	},
-	container: {
-		padding: theme.spacing.unit/2 + "px " + theme.spacing.unit + "px"
-	},
-	progressContainer: {
-		width: '100vw',
-		height: '100vh',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	titleError: {
-		marginBottom: '1em'
-	}
+	toolbarArrowBack: theme.toolbarArrowBack,
+
+	inner: theme.inner,
+	container: theme.container,
+
+	progressContainer: theme.progressContainer,
+	errorTitle: theme.errorTitle,
 });
 
 class Execution extends Component {
@@ -146,7 +133,7 @@ class Execution extends Component {
 						<Toolbar>
 							<IconButton
 								color="inherit"
-								className={classes.arrowBack}
+								className={classes.toolbarArrowBack}
 								onClick={this.handleBackClick}>
 								<ArrowBackIcon />
 							</IconButton>
@@ -183,7 +170,7 @@ class Execution extends Component {
 					<Toolbar>
 						<IconButton
 							color="inherit"
-							className={classes.arrowBack}
+							className={classes.toolbarArrowBack}
 							onClick={this.returnBack}>
 							<ArrowBackIcon />
 						</IconButton>
@@ -196,7 +183,7 @@ class Execution extends Component {
 					<div className={classes.container}>
 						<Typography
 							variant="headline"
-							className={classes.titleError}>
+							className={classes.errorTitle}>
 							Страница не найдена
 						</Typography>
 
