@@ -1,9 +1,9 @@
 import React from 'react';
 import {withStyles} from "@material-ui/core/styles";
-import ListItem from "@material-ui/core/es/ListItem/ListItem";
-import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
-import ListItemSecondaryAction from "@material-ui/core/es/ListItemSecondaryAction/ListItemSecondaryAction";
-import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const styles = () => ({
 	item: {
