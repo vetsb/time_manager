@@ -344,12 +344,15 @@ class Task extends Component {
 					<Toolbar>
 						<IconButton
 							color="inherit"
-							className={classes.arrowBack}
+							className={classes.toolbarArrowBack}
 							onClick={this.returnBack}>
 							<ArrowBackIcon />
 						</IconButton>
 
-						<Typography variant="title" color="inherit" className={classes.title}>Ошибка</Typography>
+						<Typography
+							variant="title"
+							color="inherit"
+							className={classes.toolbarTitle}>Ошибка</Typography>
 					</Toolbar>
 				</AppBar>
 
