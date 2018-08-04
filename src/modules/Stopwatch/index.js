@@ -114,9 +114,9 @@ class Stopwatch extends Component {
 		});
 	};
 
-	finishExecution = () => {
+	finishExecution = (execution) => {
 		this.update(0, 0, 0, 0);
-		this.props.onStop();
+		this.props.onStop(execution);
 	};
 
 	tick = () => {
@@ -191,7 +191,6 @@ class Stopwatch extends Component {
 				<StopExecutionDialog
 					onClose={this.closeStopDialog}
 					open={this.state.openStopDialog}
-					onDisagree={() => this.handleStart(this.props)}
 					onAgree={this.finishExecution}/>
 			</div>
 		)

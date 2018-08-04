@@ -13,7 +13,8 @@ export const increaseSecondsByTaskId = (id) => {
 				taskId: id,
 				seconds: 1,
 				finished: false,
-				createdAt: parseInt(Date.now()/1000, 10)
+				createdAt: parseInt(Date.now()/1000, 10),
+				description: "",
 			};
 
 			new Api("timeline", {}, {
@@ -72,27 +73,21 @@ export const setExecution = (execution) => {
 	}
 };
 
-export const finishExecutionByTaskId = (id) => {
-	new Api('timeline', {
-		taskId: id,
-		finished: false,
-		_limit: 1,
-	}, {}, json => {
-		json[0].finished = true;
+export const finishExecution = (execution) => {
+	execution.finished = true;
 
-		new Api('timeline/' + json[0].id, {}, {
-			method: "PATCH",
-			headers: {
-				'Accept': 'application/json',
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(json[0]),
-		}, execution => {
-			store.dispatch(setExecution(execution))
-		})
+	new Api('timeline/' + execution.id, {}, {
+		method: "PATCH",
+		headers: {
+			'Accept': 'application/json',
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(execution),
+	}, json => {
+		store.dispatch(setExecution(json))
 	});
 
 	return {
-		type: types.FINISH_EXECUTION,
+		type: types.UPDATE_EXECUTION
 	}
 };

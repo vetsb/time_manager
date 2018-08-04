@@ -19,7 +19,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 
 import Stopwatch from '../Stopwatch';
-import {finishExecutionByTaskId, getNotFinishedExecutionByTaskId, increaseSecondsByTaskId} from "./actionCreator";
+import {finishExecution, getNotFinishedExecutionByTaskId, increaseSecondsByTaskId} from "./actionCreator";
 import ExitDialog from "./dialogs/ExitDialog";
 
 const styles = theme => ({
@@ -95,6 +95,10 @@ class Execution extends Component {
 		this.props.history.push('/' + this.state.task.id);
 	};
 
+	handleAgree = () => {
+		this.exit();
+	};
+
 	handleStart = () => {
 		this.setState({
 			running: true
@@ -105,8 +109,11 @@ class Execution extends Component {
 		this.props.increaseSecondsByTaskId(this.state.task.id);
 	};
 
-	handleStop = () => {
-		this.props.finishExecutionByTaskId(this.state.task.id);
+	handleStop = (execution) => {
+		execution.id = this.state.execution.id;
+		execution.finished = true;
+
+		this.props.finishExecution(execution);
 
 		this.setState({
 			running: false
@@ -159,7 +166,7 @@ class Execution extends Component {
 					<ExitDialog
 						onClose={this.closeExitDialog}
 						open={this.state.openExitDialog}
-						onAgree={this.exit}/>
+						onAgree={this.handleAgree}/>
 				</Grid>
 			);
 		}
@@ -206,8 +213,8 @@ function mapDispatchToProps(dispatch) {
 	return bindActionCreators({
 		getTask: getTask,
 		increaseSecondsByTaskId: increaseSecondsByTaskId,
-		finishExecutionByTaskId: finishExecutionByTaskId,
-		getNotFinishedExecutionByTaskId: getNotFinishedExecutionByTaskId
+		getNotFinishedExecutionByTaskId: getNotFinishedExecutionByTaskId,
+		finishExecution: finishExecution
 	}, dispatch);
 }
 

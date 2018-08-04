@@ -8,6 +8,9 @@ const styles = () => ({
 		paddingBottom: 25,
 		fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
 	},
+	lastElement: {
+		paddingBottom: 0,
+	},
 	left: {
 		width: 30,
 		position: 'relative',
@@ -49,13 +52,25 @@ const styles = () => ({
 		color: "#AAA",
 		marginRight: 15,
 	},
+	description: {
+		marginTop: 10,
+	},
+	descriptionItem: {
+		fontSize: 14,
+		lineHeight: 1.7,
+		color: "#444",
+		marginBottom: 15,
+		"&:last-child": {
+			marginBottom: 0,
+		}
+	}
 });
 
 const TimelineElement = (props) => {
 	const {classes} = props;
 
 	return (
-		<div className={classes.element}>
+		<div className={classes.element + (props.isEnd ? " " + classes.lastElement : "")}>
 			<div className={classes.left}>
 				{props.isEnd ? null : <div className={classes.line} style={{backgroundColor: props.color}}/>}
 				<div className={classes.circle} style={{backgroundColor: props.color}}/>
@@ -78,6 +93,20 @@ const TimelineElement = (props) => {
 						{props.time}
 					</span>
 				</div>
+
+				{props.description.length > 0 ? (
+					<div className={classes.description}>
+						<ul className={classes.descriptionList}>
+							{props.description.map((item, key) => {
+								if (item.length > 0) {
+									return <li className={classes.descriptionItem} key={key}>{item}</li>
+								}
+
+								return null;
+							})}
+						</ul>
+					</div>
+				) : null}
 			</div>
 		</div>
 	);

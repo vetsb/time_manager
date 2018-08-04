@@ -179,9 +179,14 @@ class Task extends Component {
 			Object.values(groupedTimeline).forEach(element => {
 				let el = Object.assign({}, element[0]);
 				el.seconds = 0;
+				el.description = [];
 
 				element.forEach(item => {
 					el.seconds += item.seconds;
+
+					if (item.description !== undefined && item.description.length > 0) {
+						el.description.push(item.description);
+					}
 				});
 
 				newTimeline.push(el);
@@ -242,7 +247,7 @@ class Task extends Component {
 							<ListItem>
 								<ListItemText
 									primary="Выполняется"
-									secondary={spendSeconds > 0 ? secondsToTimeWithMeasure(spendSeconds) : "Ещё не начиналось"}/>
+									secondary={spendSeconds > 0 ? (<React.Fragment>{secondsToTimeWithMeasure(spendSeconds)} <i>(Запланировано {secondsToTimeWithMeasure(deadlineSeconds)})</i></React.Fragment>) : "Ещё не начиналось"}/>
 							</ListItem>
 
 							<ListItem>
@@ -280,6 +285,7 @@ class Task extends Component {
 											isEnd={sumSeconds >= deadlineSeconds && key === newTimeline.length - 1}
 											createdAt={item.createdAt}
 											time={secondsToTimeWithMeasure(item.seconds)}
+											description={item.description}
 											color="#3f51b5"/>
 									)
 								})}

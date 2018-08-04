@@ -42,10 +42,12 @@ export const secondsToTimeWithMeasure = (seconds) => {
 	if (measure === 2) {
 		let minutes = secondsToTime(seconds - time*60*60);
 
-		minutesText = " " + minutes + " " + decWord(minutes, MEASURES_FORMS[getMeasureBySeconds(minutes*60)]);
+		if (minutes !== 0) {
+			minutesText = " " + minutes + " " + decWord(minutes, MEASURES_FORMS[getMeasureBySeconds(minutes*60)]);
+		}
 	}
 
-	return time + " " + decWord(time, MEASURES_FORMS[getMeasureBySeconds(seconds)]) + minutesText;
+	return time + " " + decWord(time, MEASURES_FORMS[measure]) + minutesText;
 };
 
 export const getMeasureBySeconds = (time) => {
