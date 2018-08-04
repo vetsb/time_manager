@@ -11,5 +11,5 @@ npm start
 
 ## Сборка
 ```shell
-npm build
+npm run build
 ```
