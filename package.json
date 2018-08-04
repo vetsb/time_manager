@@ -27,12 +27,11 @@
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js server",
+    "start": "npm-run-all -p watch-css start-js apiserver",
     "build-js": "react-scripts build",
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "node server.js",
-    "apiserver": "json-server api/db.json --routes api/routes.json"
+    "apiserver": "json-server --watch --port 4000 api/db.json"
   }
 }

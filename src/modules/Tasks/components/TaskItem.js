@@ -27,13 +27,12 @@ const handleClick = (props, id) => {
 };
 
 const TaskItem = (props) => {
-	const {item, checked, visibleCheckbox, classes} = props;
+	const {item, checked, visibleCheckbox} = props;
 
 	return (
 		<ListItem
 			button
 			key={item.id}
-			className={classes.item}
 			onMouseUp={handleMouseup}
 			onMouseDown={() => handleMousedown(props, item.id)}
 			onClick={() => handleClick(props, item.id)}>
