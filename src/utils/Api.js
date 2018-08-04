@@ -1,7 +1,7 @@
 export default class Api {
     constructor(page, options, headers, callbackSuccess) {
         this.options = options;
-        this.url = "http://localhost:4000/" + page + "?";
+        this.url = "http://localhost:8080/api/" + page + "?";
         let index = 0;
 
         for (let optionKey in this.options) {
