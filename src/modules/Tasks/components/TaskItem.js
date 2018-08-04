@@ -1,15 +1,8 @@
 import React from 'react';
-import {withStyles} from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Checkbox from "@material-ui/core/Checkbox";
-
-const styles = () => ({
-	// item: {
-	// 	background: "#FFF"
-	// },
-});
 
 const handleMouseup = () => {
 	clearTimeout(this.pressTimer);
@@ -57,4 +50,4 @@ const TaskItem = (props) => {
 	)
 };
 
-export default withStyles(styles)(TaskItem);
+export default TaskItem;
