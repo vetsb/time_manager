@@ -4,7 +4,7 @@ import {withStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 import withRoot from "../../utils/withRoot";
-import StopExecutionDialog from "../Execution/dialogs/StopExecutionDialog";
+import StopExecutionDialog from "./dialog/StopExecutionDialog";
 
 const styles = theme => ({
 	container: {

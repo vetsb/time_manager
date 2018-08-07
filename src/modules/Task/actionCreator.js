@@ -1,12 +1,15 @@
 import * as types from './actionTypes';
 import store from '../../store';
 import Api from '../../utils/Api';
+import groupTimeline from "./js/groupTimeline";
 
 export const getTask = (id) => {
 	new Api('tasks/' + id, {
 		"_embed": "timeline"
-	}, {}, json => {
-		store.dispatch(getTaskResult(json));
+	}, {}, task => {
+		task.groupTimeline = groupTimeline(Object.create(task.timeline));
+
+		store.dispatch(getTaskResult(task));
 	});
 
 	return {
@@ -59,5 +62,29 @@ export const deleteCurrentTaskResult = (id) => {
 	return {
 		type: types.DELETE_CURRENT_TASK_RESULT,
 		id: id,
+	}
+};
+
+export const editTimelineElement = (element) => {
+	new Api('timeline/' + element.id, {}, {
+		method: "PATCH",
+		headers: {
+			'Accept': 'application/json',
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(element),
+	}, json => {
+		store.dispatch(editTimelineElementResult(Object.assign({}, json, element)));
+	});
+
+	return {
+		type: types.EDIT_TIMELINE_ELEMENT,
+	}
+};
+
+export const editTimelineElementResult = (element) => {
+	return {
+		type: types.EDIT_TIMELINE_ELEMENT_RESULT,
+		element: element,
 	}
 };

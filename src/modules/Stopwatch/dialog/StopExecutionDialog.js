@@ -15,7 +15,7 @@ import formDataEntries from 'form-data-entries/index';
 const styles = () => ({
 	paper: {
 		width: '100%',
-	}
+	},
 });
 
 const agree = (props, form) => {
@@ -31,7 +31,8 @@ const agree = (props, form) => {
 
 const StopExecutionDialog = (props) => {
 	const form = React.createRef();
-	const {classes} = props;
+	const {classes, description} = props;
+	const isEdit = description !== undefined;
 
 	return (
 		<Dialog
@@ -40,23 +41,33 @@ const StopExecutionDialog = (props) => {
 			classes={{
 				paper: classes.paper
 			}}>
-			<DialogTitle>Завершение выполнения</DialogTitle>
+			<DialogTitle>
+				{isEdit ? "Редактирование выполнения" : "Завершение выполнения"}
+			</DialogTitle>
 
 			<DialogContent>
 				<form ref={form}>
 					<TextField
+						inputProps={{
+							style: {
+								lineHeight: 1.7
+							}
+						}}
 						multiline
 						name="description"
 						label="Что вы сделали за это время?"
 						rows={6}
 						fullWidth
-						autoFocus/>
+						autoFocus
+						defaultValue={isEdit ? description : ""}/>
 				</form>
 			</DialogContent>
 
 			<DialogActions>
 				<Button onClick={() => {props.onClose()}} color="primary">Отмена</Button>
-				<Button onClick={() => {agree(props, form)}} color="primary">Завершить</Button>
+				<Button onClick={() => {agree(props, form)}} color="primary">
+					{isEdit ? "Сохранить" : "Завершить"}
+				</Button>
 			</DialogActions>
 		</Dialog>
 	);

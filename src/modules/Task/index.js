@@ -27,7 +27,7 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Timeline from '../Timeline';
-import TimelineElement from '../Timeline/TimelineElement';
+import TimelineElement from '../Timeline/components/TimelineElement';
 
 import {secondsToTimeWithMeasure, timeToSeconds} from "../../utils/timeFormatter";
 import withRoot from "../../utils/withRoot";
@@ -116,28 +116,66 @@ class Task extends Component {
 		this.props.deleteCurrentTask(this.state.task.id);
 	};
 
-	groupByTimePeriod = (obj, timestamp, period) => {
-		let objPeriod = {};
-		let oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+	renderSpendTime = () => {
+		const {task} = this.state;
+		const deadlineSeconds = timeToSeconds(task.time, task.measure);
+		const spendSeconds = this.getSpendSeconds();
 
-		for (let i = 0; i < obj.length; i++) {
-			let d = new Date(obj[i][timestamp] * 1000);
-			if (period === 'day') {
-				d = Math.floor(d.getTime() / oneDay);
-			} else if (period === 'week') {
-				d = Math.floor(d.getTime() / (oneDay * 7));
-			} else if (period === 'month') {
-				d = (d.getFullYear() - 1970) * 12 + d.getMonth();
-			} else if (period === 'year') {
-				d = d.getFullYear();
-			} else {
-				console.log('groupByTimePeriod: You have to set a period! day | week | month | year');
-			}
-
-			objPeriod[d] = objPeriod[d] || [];
-			objPeriod[d].push(obj[i]);
+		if (spendSeconds > 0) {
+			return (
+				<React.Fragment>
+					{secondsToTimeWithMeasure(spendSeconds)}
+					&nbsp;
+					<i>(Запланировано {secondsToTimeWithMeasure(deadlineSeconds)})</i>
+				</React.Fragment>
+			)
 		}
-		return objPeriod;
+
+		return "Ещё не начиналось";
+	};
+
+	getDeadlineSeconds = () => {
+		const {task} = this.state;
+
+		return timeToSeconds(task.time, task.measure);
+	};
+
+	getSpendSeconds = () => {
+		let spendSeconds = 0;
+
+		this.state.task.timeline.forEach(item => spendSeconds += item.seconds);
+
+		return spendSeconds;
+	};
+
+	getLeftSeconds = () => {
+		let leftSeconds = this.getDeadlineSeconds() - this.getSpendSeconds();
+
+		if (leftSeconds < 0) {
+			leftSeconds = 0;
+		}
+
+		return leftSeconds;
+	};
+
+	renderLeftTime = () => {
+		const leftSeconds = this.getLeftSeconds();
+		const deadlineSeconds = this.getDeadlineSeconds();
+		const spendSeconds = this.getSpendSeconds();
+
+		if (leftSeconds > 0) {
+			return secondsToTimeWithMeasure(leftSeconds);
+		} else {
+			if (deadlineSeconds === 0) {
+				return "Нет срока";
+			} else {
+				return (
+					<React.Fragment>
+						Завершено <i>(Переработка {secondsToTimeWithMeasure(spendSeconds - deadlineSeconds)})</i>
+					</React.Fragment>
+				)
+			}
+		}
 	};
 
 	render() {
@@ -154,50 +192,7 @@ class Task extends Component {
 		}
 
 		if (taskFound) {
-			const deadlineSeconds = timeToSeconds(task.time, task.measure);
-			let spendSeconds = 0;
-
-			let timeline = Object.assign([], task.timeline);
-
-			timeline.sort((a, b) => {
-				if (a.createdAt > b.createdAt) {
-					return 1;
-				}
-
-				if (a.createdAt < b.createdAt) {
-					return -1;
-				}
-
-				return 0;
-			});
-
-			timeline.forEach(item => spendSeconds += item.seconds);
-
-			const groupedTimeline = this.groupByTimePeriod(timeline, 'createdAt', 'day');
-			let newTimeline = [];
-
-			Object.values(groupedTimeline).forEach(element => {
-				let el = Object.assign({}, element[0]);
-				el.seconds = 0;
-				el.description = [];
-
-				element.forEach(item => {
-					el.seconds += item.seconds;
-
-					if (item.description !== undefined && item.description.length > 0) {
-						el.description.push(item.description);
-					}
-				});
-
-				newTimeline.push(el);
-			});
-
-			let leftSeconds = deadlineSeconds - spendSeconds;
-
-			if (leftSeconds < 0) {
-				leftSeconds = 0;
-			}
-
+			const deadlineSeconds = this.getDeadlineSeconds();
 			let sumSeconds = 0;
 
 			return (
@@ -247,23 +242,13 @@ class Task extends Component {
 							<ListItem>
 								<ListItemText
 									primary="Выполняется"
-									secondary={spendSeconds > 0 ? (<React.Fragment>{secondsToTimeWithMeasure(spendSeconds)} <i>(Запланировано {secondsToTimeWithMeasure(deadlineSeconds)})</i></React.Fragment>) : "Ещё не начиналось"}/>
+									secondary={this.renderSpendTime()}/>
 							</ListItem>
 
 							<ListItem>
 								<ListItemText
 									primary="Осталось"
-									secondary={
-										leftSeconds > 0
-											?
-											secondsToTimeWithMeasure(leftSeconds)
-											:
-											(deadlineSeconds === 0
-													?
-													"Нет срока"
-													:
-													(<React.Fragment>Завершено <i>(Переработка {secondsToTimeWithMeasure(spendSeconds - deadlineSeconds)})</i></React.Fragment>)
-											)}/>
+									secondary={this.renderLeftTime()}/>
 							</ListItem>
 
 							{task.description.length > 0 ? (
@@ -275,14 +260,14 @@ class Task extends Component {
 
 						<div className={classes.container}>
 							<Timeline>
-								{newTimeline.map((item, key) => {
+								{task.groupTimeline.map((item, key) => {
 									sumSeconds += item.seconds;
 
 									return (
 										<TimelineElement
 											key={item.id}
 											isStart={key === 0}
-											isEnd={sumSeconds >= deadlineSeconds && key === newTimeline.length - 1}
+											isEnd={sumSeconds >= deadlineSeconds && key === task.groupTimeline.length - 1}
 											createdAt={item.createdAt}
 											time={secondsToTimeWithMeasure(item.seconds)}
 											description={item.description}

@@ -60,8 +60,8 @@
     },
     {
       "taskId": 1,
-      "seconds": 24047,
-      "finished": false,
+      "seconds": 24048,
+      "finished": true,
       "createdAt": 1532805538,
       "description": "",
       "id": 7
