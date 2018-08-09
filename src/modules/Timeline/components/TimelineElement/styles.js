@@ -1,8 +1,8 @@
-const styles = () => ({
+const styles = theme => ({
 	element: {
+		...theme.roboto,
 		display: 'flex',
 		paddingBottom: 25,
-		fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
 	},
 	lastElement: {
 		paddingBottom: 0,

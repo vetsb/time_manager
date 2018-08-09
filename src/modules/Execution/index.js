@@ -7,15 +7,9 @@ import withRoot from "../../utils/withRoot";
 import {getTask} from "../Task/store/actionCreator";
 import store from '../../store';
 
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-
 import {withStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 
 import Stopwatch from '../Stopwatch';
@@ -23,6 +17,9 @@ import {finishExecution, getNotFinishedExecutionByTaskId, increaseSecondsByTaskI
 import ExitDialog from "./dialogs/ExitDialog";
 
 import styles from './styles';
+
+import MAppBar from '../../components/MAppBar';
+import Progress from '../../components/Progress';
 
 class Execution extends Component {
 	stopwatch = React.createRef();
@@ -111,6 +108,16 @@ class Execution extends Component {
 		});
 	};
 
+	renderAppBar = () => {
+		return (
+			<MAppBar
+				hasBackArrow={true}
+				onClickBackArrow={this.handleBackClick}
+				title="Выполнение задачи"
+				history={this.props.history}/>
+		);
+	};
+
 	render() {
 		const {classes} = this.props;
 		const {task, execution} = this.state;
@@ -118,27 +125,21 @@ class Execution extends Component {
 
 		if (this.state.loading) {
 			return (
-				<div className={classes.progressContainer}>
-					<CircularProgress size={60} />
-				</div>
-			);
+				<React.Fragment>
+					{this.renderAppBar()}
+					<Progress/>
+				</React.Fragment>
+			)
 		}
 
 		if (taskFound) {
 			return (
-				<Grid className={classes.wrapper}>
-					<AppBar position="static">
-						<Toolbar>
-							<IconButton
-								color="inherit"
-								className={classes.toolbarArrowBack}
-								onClick={this.handleBackClick}>
-								<ArrowBackIcon />
-							</IconButton>
-
-							<Typography variant="title" color="inherit" className={classes.title}>Выполнение задачи</Typography>
-						</Toolbar>
-					</AppBar>
+				<React.Fragment>
+					<MAppBar
+						hasBackArrow={true}
+						onClickBackArrow={this.handleBackClick}
+						title="Выполнение задачи"
+						history={this.props.history}/>
 
 					<div className={classes.inner}>
 						<div className={classes.container}>
@@ -158,24 +159,16 @@ class Execution extends Component {
 						onClose={this.closeExitDialog}
 						open={this.state.openExitDialog}
 						onAgree={this.handleAgree}/>
-				</Grid>
+				</React.Fragment>
 			);
 		}
 
 		return (
 			<Grid className={classes.wrapper}>
-				<AppBar position="static">
-					<Toolbar>
-						<IconButton
-							color="inherit"
-							className={classes.toolbarArrowBack}
-							onClick={this.returnBack}>
-							<ArrowBackIcon />
-						</IconButton>
-
-						<Typography variant="title" color="inherit" className={classes.title}>Ошибка</Typography>
-					</Toolbar>
-				</AppBar>
+				<MAppBar
+					hasBackArrow={true}
+					title="Ошибка"
+					history={this.props.history}/>
 
 				<div className={classes.inner}>
 					<div className={classes.container}>

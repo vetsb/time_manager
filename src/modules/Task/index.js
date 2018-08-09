@@ -7,14 +7,7 @@ import {deleteCurrentTask, editTask, getTask} from "./store/actionCreator";
 import store from '../../store';
 
 import {withStyles} from "@material-ui/core/styles";
-
-import Grid from "@material-ui/core/Grid";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import EditIcon from "@material-ui/icons/Edit";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -24,19 +17,21 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Timeline from '../Timeline';
-import TimelineElement from '../Timeline/components/TimelineElement/index';
+import TimelineElement from '../Timeline/components/TimelineElement';
 
 import {secondsToTimeWithMeasure, timeToSeconds} from "../../utils/timeFormatter";
 import withRoot from "../../utils/withRoot";
 
-import AddTaskDialog from "../Tasks/dialogs/AddTaskDialog/index";
+import AddTaskDialog from "../Tasks/dialogs/AddTaskDialog";
 import DeleteTaskDialog from "./dialogs/DeleteTaskDialog";
 
 import styles from './styles';
 import {getDeadlineSeconds, getLeftSeconds, getSpendSeconds} from "./js/secondsFormatter";
+
+import MAppBar from '../../components/MAppBar';
+import Progress from '../../components/Progress';
 
 class Task extends Component {
 	state = {
@@ -137,6 +132,38 @@ class Task extends Component {
 		}
 	};
 
+	renderAppBar = () => {
+		return (
+			<MAppBar
+				hasBackArrow={true}
+				title="Подробнее"
+				history={this.props.history}
+				buttons={[
+					{
+						onClick: this.runTask,
+						icon: <PlayArrowIcon />
+					},
+					{
+						onClick: this.showEditTaskDialog,
+						icon: <EditIcon />
+					},
+					{
+						onClick: this.showDeleteTaskDialog,
+						icon: <DeleteIcon />
+					}
+				]}/>
+		);
+	};
+
+	renderAppBarError = () => {
+		return (
+			<MAppBar
+				hasBackArrow={true}
+				title="Ошибка"
+				history={this.props.history}/>
+		);
+	};
+
 	render() {
 		const {task} = this.state;
 		const {classes} = this.props;
@@ -144,10 +171,11 @@ class Task extends Component {
 
 		if (this.state.loading) {
 			return (
-				<div className={classes.progressContainer}>
-					<CircularProgress size={60} />
-				</div>
-			);
+				<React.Fragment>
+					{this.renderAppBar()}
+					<Progress />
+				</React.Fragment>
+			)
 		}
 
 		if (taskFound) {
@@ -155,42 +183,8 @@ class Task extends Component {
 			let sumSeconds = 0;
 
 			return (
-				<Grid className={classes.wrapper}>
-					<AppBar position="static">
-						<Toolbar>
-							<IconButton
-								color="inherit"
-								className={classes.toolbarArrowBack}
-								onClick={() => this.props.history.push('/')}>
-								<ArrowBackIcon />
-							</IconButton>
-
-							<Typography
-								variant="title"
-								color="inherit"
-								className={classes.toolbarTitle}>Подробнее</Typography>
-
-							<div className={classes.toolbarButtons}>
-								<IconButton
-									color="inherit"
-									onClick={this.runTask}>
-									<PlayArrowIcon />
-								</IconButton>
-
-								<IconButton
-									color="inherit"
-									onClick={this.showEditTaskDialog}>
-									<EditIcon />
-								</IconButton>
-
-								<IconButton
-									color="inherit"
-									onClick={this.showDeleteTaskDialog}>
-									<DeleteIcon />
-								</IconButton>
-							</div>
-						</Toolbar>
-					</AppBar>
+				<React.Fragment>
+					{this.renderAppBar()}
 
 					<div className={classes.inner}>
 						<div className={classes.container}>
@@ -278,27 +272,13 @@ class Task extends Component {
 									onAgree={this.deleteTask}/>
 							</React.Fragment>
 						) : null}
-				</Grid>
+				</React.Fragment>
 			);
 		}
 
 		return (
-			<Grid className={classes.wrapper}>
-				<AppBar position="static">
-					<Toolbar>
-						<IconButton
-							color="inherit"
-							className={classes.toolbarArrowBack}
-							onClick={this.returnBack}>
-							<ArrowBackIcon />
-						</IconButton>
-
-						<Typography
-							variant="title"
-							color="inherit"
-							className={classes.toolbarTitle}>Ошибка</Typography>
-					</Toolbar>
-				</AppBar>
+			<React.Fragment>
+				{this.renderAppBarError()}
 
 				<div className={classes.inner}>
 					<div className={classes.container}>
@@ -311,7 +291,7 @@ class Task extends Component {
 						<Button variant="contained" color="primary" onClick={() => this.props.history.push('/')}>На главную</Button>
 					</div>
 				</div>
-			</Grid>
+			</React.Fragment>
 		);
 	}
 }

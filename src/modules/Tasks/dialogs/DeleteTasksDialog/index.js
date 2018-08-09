@@ -1,5 +1,5 @@
 import React from 'react';
-import SimpleDialog from "../../../../components/SimpleDialog/index";
+import SimpleDialog from "../../../../components/SimpleDialog";
 
 const DeleteTasksDialog = (props) => {
 	return <SimpleDialog

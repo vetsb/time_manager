@@ -7,6 +7,7 @@ import withRoot from "../../utils/withRoot";
 import StopExecutionDialog from "./dialog/StopExecutionDialog";
 
 import styles from './styles';
+import PropTypes from 'prop-types';
 
 class Stopwatch extends Component {
 	constructor() {
@@ -177,5 +178,9 @@ class Stopwatch extends Component {
 		)
 	}
 }
+
+Stopwatch.propTypes = {
+	onStop: PropTypes.func,
+};
 
 export default withRoot(withStyles(styles)(Stopwatch));

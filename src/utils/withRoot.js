@@ -17,35 +17,19 @@ const theme = createMuiTheme({
 	breakpoints: {
 		values: breakpointValues,
 	},
-	wrapper: {
-		minWidth: 360,
-		maxWidth: 720,
-		marginLeft: 'auto',
-		marginRight: 'auto',
-		backgroundColor: "#FFF",
-		minHeight: '100vh',
-	},
-
-	toolbarTitle: {
-		flex: 1,
-	},
-	toolbarArrowBack: {
-		marginLeft: -spacing/2,
-		marginRight: spacing/2,
-	},
-	toolbarButtons: {
-		marginRight: -spacing/2,
-	},
 
 	inner: {
 		paddingTop: 16,
 		paddingBottom: 16,
+		overflowX: 'hidden',
+		overflowY: 'auto',
 
 		'@media (min-width: 576px)': {
 			paddingTop: spacing,
 			paddingBottom: spacing,
 		}
 	},
+
 	container: {
 		paddingLeft: 16,
 		paddingRight: 16,
@@ -63,16 +47,12 @@ const theme = createMuiTheme({
 		margin: spacing/4
 	},
 
-	progressContainer: {
-		width: '100vw',
-		height: '100vh',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-
 	errorTitle: {
 		marginBottom: '1em',
+	},
+
+	roboto: {
+		fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
 	}
 });
 

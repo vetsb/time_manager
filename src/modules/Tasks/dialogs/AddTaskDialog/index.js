@@ -12,10 +12,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 
 import {MEASURES} from '../../../../constants/measures';
-import formDataEntries from 'form-data-entries/index';
+import formDataEntries from 'form-data-entries';
 
 import dateformat from 'dateformat';
 import styles from './styles';
+import PropTypes from 'prop-types';
 
 class AddTaskDialog extends Component {
 	form = React.createRef();
@@ -156,5 +157,11 @@ class AddTaskDialog extends Component {
 		)
 	}
 }
+
+AddTaskDialog.propTypes = {
+	task: PropTypes.object,
+	onClose: PropTypes.func.isRequired,
+	open: PropTypes.bool.isRequired,
+};
 
 export default withStyles(styles)(AddTaskDialog);

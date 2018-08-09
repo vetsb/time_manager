@@ -1,36 +1,26 @@
 import React, {Component} from 'react';
 
-import {withStyles} from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-
-import Typography from "@material-ui/core/Typography";
-
 import List from "@material-ui/core/List";
-
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
 
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
 
-import CircularProgress from "@material-ui/core/CircularProgress";
-
 import {bindActionCreators} from "redux";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
 import {addTask, deleteTasks, editTask, fetchTasks} from './store/actionCreator';
-import withRoot from "../../utils/withRoot";
 import store from '../../store';
-import AddTaskDialog from "./dialogs/AddTaskDialog/index";
+import AddTaskDialog from "./dialogs/AddTaskDialog";
 
-import EmptyListLabel from '../../components/EmptyListLabel/index';
-import DeleteTasksDialog from "./dialogs/DeleteTasksDialog/index";
+import EmptyListLabel from '../../components/EmptyListLabel';
+import DeleteTasksDialog from "./dialogs/DeleteTasksDialog";
 import TaskItem from "./components/TaskItem";
-import styles from './styles';
+
+import MAppBar from '../../components/MAppBar';
+import Progress from '../../components/Progress';
 
 class Tasks extends Component {
 	state = {
@@ -206,44 +196,39 @@ class Tasks extends Component {
 		}, this.openEditTaskDialog);
 	};
 
+	renderAppBar = () => {
+		return (
+			<MAppBar
+				title="Задачи"
+				history={this.props.history}
+				buttons={[
+					{
+						onClick: this.toggleCheckboxes,
+						icon: this.state.visibleCheckboxes ? (
+							this.state.checked.length === 0 ? <DoneIcon /> : <DeleteIcon />
+						) : <EditIcon />
+					},
+					{
+						onClick: this.openAddTaskDialog,
+						icon: <AddIcon />
+					}
+				]}/>
+		);
+	};
 
 	render() {
-		const { classes } = this.props;
-
 		if (this.state.loading) {
 			return (
-				<div className={classes.progressContainer}>
-					<CircularProgress size={60} />
-				</div>
-			);
+				<React.Fragment>
+					{this.renderAppBar()}
+					<Progress />
+				</React.Fragment>
+			)
 		}
 
 		return (
-			<Grid className={classes.wrapper}>
-				<AppBar position="static">
-					<Toolbar>
-						<Typography variant="title" color="inherit" className={classes.toolbarTitle}>
-							Задачи
-						</Typography>
-						<div className={classes.toolbarButtons}>
-							<IconButton
-								aria-haspopup="true"
-								color="inherit"
-								onClick={this.toggleCheckboxes}>
-								{this.state.visibleCheckboxes ? (
-									this.state.checked.length === 0 ? <DoneIcon /> : <DeleteIcon />
-								) : <EditIcon />}
-							</IconButton>
-
-							<IconButton
-								aria-haspopup="true"
-								color="inherit"
-								onClick={this.openAddTaskDialog}>
-								<AddIcon />
-							</IconButton>
-						</div>
-					</Toolbar>
-				</AppBar>
+			<React.Fragment>
+				{this.renderAppBar()}
 
 				<List>
 					{this.state.tasks.length === 0 ? (
@@ -282,7 +267,7 @@ class Tasks extends Component {
 					onClose={this.closeDeleteTasksDialog}
 					open={this.state.openDialogs.deleteTasks}
 					onAgree={this.deleteTasks}/>
-			</Grid>
+			</React.Fragment>
 		);
 	}
 }
@@ -302,4 +287,4 @@ function mapDispatchToProps(dispatch) {
 	}, dispatch);
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withRoot(withStyles(styles)(Tasks))));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Tasks));

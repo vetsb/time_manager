@@ -80,6 +80,8 @@ export const addTask = (task) =>  {
 		},
 		body: JSON.stringify(task)
 	}, json => {
+		json.timeline = [];
+
 		store.dispatch(addTaskResult(json))
 	});
 

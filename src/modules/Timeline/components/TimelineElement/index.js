@@ -4,12 +4,13 @@ import DateFormat from "../../../../utils/DateFormat";
 import {secondsToTimeWithMeasure} from "../../../../utils/timeFormatter";
 import Button from "@material-ui/core/Button";
 import StopExecutionDialog from "../../../Stopwatch/dialog/StopExecutionDialog";
-import bindActionCreators from "redux/src/bindActionCreators";
+import {bindActionCreators} from "redux";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import withRoot from "../../../../utils/withRoot";
 import {editTimelineElement} from "../../../Task/store/actionCreator";
 import styles from './styles';
+import PropTypes from 'prop-types';
 
 class TimelineElement extends Component {
 	state = {
@@ -117,5 +118,23 @@ function mapDispatchToProps(dispatch) {
 		editTimelineElement: editTimelineElement
 	}, dispatch);
 }
+
+TimelineElement.defaultProps = {
+	isStart: false,
+	isEnd: false,
+	createdAt: 0,
+	time: "",
+	description: [],
+	color: "",
+};
+
+TimelineElement.propTypes = {
+	isStart: PropTypes.bool,
+	isEnd: PropTypes.bool,
+	createdAt: PropTypes.number,
+	time: PropTypes.string,
+	description: PropTypes.array,
+	color: PropTypes.string,
+};
 
 export default withRouter(connect(null, mapDispatchToProps)(withRoot(withStyles(styles)(TimelineElement))));
