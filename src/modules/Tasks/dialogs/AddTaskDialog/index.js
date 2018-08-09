@@ -103,7 +103,7 @@ class AddTaskDialog extends Component {
 							defaultValue={isEdit ? task.description : ""}/>
 
 						<Grid container spacing={24}>
-							<Grid item xs={12} sm={9}>
+							<Grid item xs={12} sm={8}>
 								<TextField
 									name="time"
 									label="Время выполнения"
@@ -112,7 +112,7 @@ class AddTaskDialog extends Component {
 									defaultValue={isEdit ? task.time : ""}/>
 							</Grid>
 
-							<Grid item xs={12} sm={3}>
+							<Grid item xs={12} sm={4}>
 								<TextField
 									select
 									name="measure"

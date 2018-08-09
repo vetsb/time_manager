@@ -22,7 +22,7 @@ import {bindActionCreators} from "redux";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
-import {addTask, deleteTasks, fetchTasks} from './actionCreator';
+import {addTask, deleteTasks, editTask, fetchTasks} from './actionCreator';
 import withRoot from "../../utils/withRoot";
 import store from '../../store';
 import AddTaskDialog from "./dialogs/AddTaskDialog/index";
@@ -38,8 +38,12 @@ class Tasks extends Component {
 		loading: true,
 		visibleCheckboxes: false,
 		checked: [],
-		openAddTaskDialog: false,
-		openDeleteTasksDialog: false,
+		openDialogs: {
+			addTask: false,
+			editTask: false,
+			deleteTasks: false,
+		},
+		editTask: {},
 	};
 
 	pressTimer = null;
@@ -65,6 +69,10 @@ class Tasks extends Component {
 		this.props.addTask(task);
 	};
 
+	editTask = task => {
+		this.props.editTask(task);
+	};
+
 	deleteTasks = () => {
 		this.props.deleteTasks(this.state.checked);
 		this.setState({
@@ -77,25 +85,56 @@ class Tasks extends Component {
 
 	openAddTaskDialog = () => {
 		this.setState({
-			openAddTaskDialog: true,
+			openDialogs: {
+				...this.state.openDialogs,
+				addTask: true,
+			}
 		});
 	};
 
 	closeAddTaskDialog = () => {
 		this.setState({
-			openAddTaskDialog: false,
+			openDialogs: {
+				...this.state.openDialogs,
+				addTask: false,
+			}
 		});
 	};
 
 	openDeleteTasksDialog = () => {
 		this.setState({
-			openDeleteTasksDialog: true,
+			openDialogs: {
+				...this.state.openDialogs,
+				deleteTasks: true,
+			}
 		});
 	};
 
 	closeDeleteTasksDialog = () => {
 		this.setState({
-			openDeleteTasksDialog: false,
+			openDialogs: {
+				...this.state.openDialogs,
+				deleteTasks: false,
+			}
+		});
+	};
+
+	openEditTaskDialog = () => {
+		this.setState({
+			openDialogs: {
+				...this.state.openDialogs,
+				editTask: true,
+			}
+		});
+	};
+
+	closeEditTaskDialog = () => {
+		this.setState({
+			openDialogs: {
+				...this.state.openDialogs,
+				editTask: false,
+			},
+			editTask: {}
 		});
 	};
 
@@ -161,6 +200,13 @@ class Tasks extends Component {
 
 
 
+	handleEdit = (task) => {
+		this.setState({
+			editTask: task,
+		}, this.openEditTaskDialog);
+	};
+
+
 	render() {
 		const { classes } = this.props;
 
@@ -212,7 +258,8 @@ class Tasks extends Component {
 									checked={this.state.checked.indexOf(item.id) !== -1}
 									onLongPress={this.handleTaskLongPress}
 									onClick={this.linkToTask}
-									onChange={this.handleCheckboxChange}/>
+									onChange={this.handleCheckboxChange}
+									onEdit={this.handleEdit}/>
 							);
 						})
 					)}
@@ -220,12 +267,20 @@ class Tasks extends Component {
 
 				<AddTaskDialog
 					onClose={this.closeAddTaskDialog}
-					open={this.state.openAddTaskDialog}
+					open={this.state.openDialogs.addTask}
 					onSubmit={this.addTask}/>
+
+				{this.state.editTask.id !== undefined ? (
+					<AddTaskDialog
+						task={this.state.editTask}
+						onClose={this.closeEditTaskDialog}
+						open={this.state.openDialogs.editTask}
+						onSubmit={this.editTask}/>
+				) : null}
 
 				<DeleteTasksDialog
 					onClose={this.closeDeleteTasksDialog}
-					open={this.state.openDeleteTasksDialog}
+					open={this.state.openDialogs.deleteTasks}
 					onAgree={this.deleteTasks}/>
 			</Grid>
 		);
@@ -239,7 +294,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({fetchTasks: fetchTasks, addTask: addTask, deleteTasks: deleteTasks}, dispatch);
+	return bindActionCreators({
+		fetchTasks: fetchTasks,
+		addTask: addTask,
+		deleteTasks: deleteTasks,
+		editTask: editTask
+	}, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withRoot(withStyles(styles)(Tasks))));

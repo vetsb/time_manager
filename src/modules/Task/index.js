@@ -36,6 +36,7 @@ import AddTaskDialog from "../Tasks/dialogs/AddTaskDialog/index";
 import DeleteTaskDialog from "./dialogs/DeleteTaskDialog";
 
 import styles from './styles';
+import {getDeadlineSeconds, getLeftSeconds, getSpendSeconds} from "./js/secondsFormatter";
 
 class Task extends Component {
 	state = {
@@ -101,7 +102,7 @@ class Task extends Component {
 	renderSpendTime = () => {
 		const {task} = this.state;
 		const deadlineSeconds = timeToSeconds(task.time, task.measure);
-		const spendSeconds = this.getSpendSeconds();
+		const spendSeconds = getSpendSeconds(task);
 
 		if (spendSeconds > 0) {
 			return (
@@ -116,34 +117,10 @@ class Task extends Component {
 		return "Ещё не начиналось";
 	};
 
-	getDeadlineSeconds = () => {
-		const {task} = this.state;
-
-		return timeToSeconds(task.time, task.measure);
-	};
-
-	getSpendSeconds = () => {
-		let spendSeconds = 0;
-
-		this.state.task.timeline.forEach(item => spendSeconds += item.seconds);
-
-		return spendSeconds;
-	};
-
-	getLeftSeconds = () => {
-		let leftSeconds = this.getDeadlineSeconds() - this.getSpendSeconds();
-
-		if (leftSeconds < 0) {
-			leftSeconds = 0;
-		}
-
-		return leftSeconds;
-	};
-
 	renderLeftTime = () => {
-		const leftSeconds = this.getLeftSeconds();
-		const deadlineSeconds = this.getDeadlineSeconds();
-		const spendSeconds = this.getSpendSeconds();
+		const leftSeconds = getLeftSeconds(this.state.task);
+		const deadlineSeconds = getDeadlineSeconds(this.state.task);
+		const spendSeconds = getSpendSeconds(this.state.task);
 
 		if (leftSeconds > 0) {
 			return secondsToTimeWithMeasure(leftSeconds);
@@ -174,7 +151,7 @@ class Task extends Component {
 		}
 
 		if (taskFound) {
-			const deadlineSeconds = this.getDeadlineSeconds();
+			const deadlineSeconds = getDeadlineSeconds(task);
 			let sumSeconds = 0;
 
 			return (

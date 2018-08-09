@@ -3,7 +3,9 @@ import Api from "../../utils/Api";
 import store from '../../store';
 
 export const fetchTasks = () => {
-	new Api("tasks", {}, {}, json => {
+	new Api("tasks", {
+		"_embed": "timeline"
+	}, {}, json => {
 		store.dispatch(fetchTasksResult(json))
 	});
 
@@ -17,6 +19,35 @@ export const fetchTasksResult = (tasks) =>  {
 		type: types.FETCH_TASKS_RESULT,
 		tasks: tasks
 	};
+};
+
+export const editTask = (task) => {
+	const timeline = Object.assign([], task.timeline);
+
+	task.timeline = undefined;
+
+	new Api('tasks/' + task.id, {}, {
+		method: "PATCH",
+		headers: {
+			'Accept': 'application/json',
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(task),
+	}, () => {
+		task.timeline = timeline;
+		store.dispatch(editTaskResult(task));
+	});
+
+	return {
+		type: types.EDIT_TASK
+	}
+};
+
+export const editTaskResult = (task) => {
+	return {
+		type: types.EDIT_TASK_RESULT,
+		task: task,
+	}
 };
 
 export const deleteTasks = (ids) =>  {

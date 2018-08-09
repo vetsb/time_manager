@@ -14,9 +14,18 @@ export default (state = [], action) => {
 				action.task,
 			];
 
+		case types.EDIT_TASK_RESULT:
+			const task = action.task;
+			let tmpState = [...state];
+
+			Object.assign(tmpState[state.findIndex(item => item.id === task.id)], task);
+
+			return tmpState;
+
 		case types.FETCH_TASKS:
 		case types.DELETE_TASKS:
 		case types.ADD_TASK:
+		case types.EDIT_TASK:
 		default:
 			return state;
 	}
