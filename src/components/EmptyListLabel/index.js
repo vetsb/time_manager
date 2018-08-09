@@ -2,12 +2,7 @@ import React from 'react';
 
 import {withStyles} from "@material-ui/core/styles";
 import ListSubheader from "@material-ui/core/ListSubheader";
-
-const styles = theme => ({
-	label: {
-		textAlign: "center"
-	}
-});
+import styles from './styles';
 
 const EmptyListLabel = (props) => {
 	const {classes, text} = props;

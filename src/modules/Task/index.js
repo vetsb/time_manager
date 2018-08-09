@@ -27,33 +27,15 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Timeline from '../Timeline';
-import TimelineElement from '../Timeline/components/TimelineElement';
+import TimelineElement from '../Timeline/components/TimelineElement/index';
 
 import {secondsToTimeWithMeasure, timeToSeconds} from "../../utils/timeFormatter";
 import withRoot from "../../utils/withRoot";
 
-import AddTaskDialog from "../Tasks/dialogs/AddTaskDialog";
+import AddTaskDialog from "../Tasks/dialogs/AddTaskDialog/index";
 import DeleteTaskDialog from "./dialogs/DeleteTaskDialog";
 
-const styles = theme => ({
-	wrapper: theme.wrapper,
-
-	toolbarTitle: theme.toolbarTitle,
-	toolbarArrowBack: theme.toolbarArrowBack,
-	toolbarButtons: theme.toolbarButtons,
-
-	buttons: {
-		...theme.lineButtons,
-		marginTop: 20,
-	},
-	button: theme.lineButton,
-
-	inner: theme.inner,
-	container: theme.container,
-
-	progressContainer: theme.progressContainer,
-	errorTitle: theme.errorTitle,
-});
+import styles from './styles';
 
 class Task extends Component {
 	state = {

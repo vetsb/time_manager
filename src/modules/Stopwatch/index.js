@@ -6,26 +6,7 @@ import Button from "@material-ui/core/Button";
 import withRoot from "../../utils/withRoot";
 import StopExecutionDialog from "./dialog/StopExecutionDialog";
 
-const styles = theme => ({
-	container: {
-		textAlign: 'center',
-	},
-	stopwatch: {
-		fontSize: 46,
-		color: '#000',
-		fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-		marginTop: 25,
-		marginBottom: 35,
-	},
-
-	buttons: theme.lineButtons,
-	button: theme.lineButton,
-
-	buttonInactive: {
-		opacity: 0.7,
-		pointerEvents: "none"
-	}
-});
+import styles from './styles';
 
 class Stopwatch extends Component {
 	constructor() {

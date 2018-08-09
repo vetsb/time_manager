@@ -22,16 +22,7 @@ import Stopwatch from '../Stopwatch';
 import {finishExecution, getNotFinishedExecutionByTaskId, increaseSecondsByTaskId} from "./actionCreator";
 import ExitDialog from "./dialogs/ExitDialog";
 
-const styles = theme => ({
-	wrapper: theme.wrapper,
-	toolbarArrowBack: theme.toolbarArrowBack,
-
-	inner: theme.inner,
-	container: theme.container,
-
-	progressContainer: theme.progressContainer,
-	errorTitle: theme.errorTitle,
-});
+import styles from './styles';
 
 class Execution extends Component {
 	stopwatch = React.createRef();

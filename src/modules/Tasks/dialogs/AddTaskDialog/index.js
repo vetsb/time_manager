@@ -11,19 +11,11 @@ import {withStyles} from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 
-import {MEASURES} from '../../../constants/measures';
+import {MEASURES} from '../../../../constants/measures';
 import formDataEntries from 'form-data-entries/index';
 
 import dateformat from 'dateformat';
-
-const styles = () => ({
-	dialogContent: {
-		maxWidth: 600,
-	},
-	paper: {
-		width: '100%'
-	}
-});
+import styles from './styles';
 
 class AddTaskDialog extends Component {
 	form = React.createRef();

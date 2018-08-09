@@ -25,20 +25,12 @@ import {connect} from "react-redux";
 import {addTask, deleteTasks, fetchTasks} from './actionCreator';
 import withRoot from "../../utils/withRoot";
 import store from '../../store';
-import AddTaskDialog from "./dialogs/AddTaskDialog";
+import AddTaskDialog from "./dialogs/AddTaskDialog/index";
 
-import EmptyListLabel from '../../components/EmptyListLabel';
-import DeleteTasksDialog from "./dialogs/DeleteTasksDialog";
+import EmptyListLabel from '../../components/EmptyListLabel/index';
+import DeleteTasksDialog from "./dialogs/DeleteTasksDialog/index";
 import TaskItem from "./components/TaskItem";
-
-const styles = theme => ({
-	wrapper: theme.wrapper,
-
-	toolbarTitle: theme.toolbarTitle,
-	toolbarButtons: theme.toolbarButtons,
-
-	progressContainer: theme.progressContainer,
-});
+import styles from './styles';
 
 class Tasks extends Component {
 	state = {
