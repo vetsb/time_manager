@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
-import Api from "../../utils/Api";
-import store from '../../store';
+import Api from "../../../utils/Api";
+import store from '../../../store';
 
 export const fetchTasks = () => {
 	new Api("tasks", {

@@ -3,7 +3,7 @@ import {bindActionCreators} from "redux";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
-import {deleteCurrentTask, editTask, getTask} from "./actionCreator";
+import {deleteCurrentTask, editTask, getTask} from "./store/actionCreator";
 import store from '../../store';
 
 import {withStyles} from "@material-ui/core/styles";

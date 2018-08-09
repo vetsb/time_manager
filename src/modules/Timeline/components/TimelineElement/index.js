@@ -8,7 +8,7 @@ import bindActionCreators from "redux/src/bindActionCreators";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import withRoot from "../../../../utils/withRoot";
-import {editTimelineElement} from "../../../Task/actionCreator";
+import {editTimelineElement} from "../../../Task/store/actionCreator";
 import styles from './styles';
 
 class TimelineElement extends Component {

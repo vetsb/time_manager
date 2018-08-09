@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import groupTimeline from "./js/groupTimeline";
+import groupTimeline from "../js/groupTimeline";
 
 export default (state = {}, action) => {
 	switch(action.type) {

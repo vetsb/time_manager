@@ -4,7 +4,7 @@ import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
 import withRoot from "../../utils/withRoot";
-import {getTask} from "../Task/actionCreator";
+import {getTask} from "../Task/store/actionCreator";
 import store from '../../store';
 
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
@@ -19,7 +19,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 
 import Stopwatch from '../Stopwatch';
-import {finishExecution, getNotFinishedExecutionByTaskId, increaseSecondsByTaskId} from "./actionCreator";
+import {finishExecution, getNotFinishedExecutionByTaskId, increaseSecondsByTaskId} from "./store/actionCreator";
 import ExitDialog from "./dialogs/ExitDialog";
 
 import styles from './styles';

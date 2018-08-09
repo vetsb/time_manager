@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
-import store from '../../store';
-import Api from '../../utils/Api';
-import groupTimeline from "./js/groupTimeline";
+import store from '../../../store';
+import Api from '../../../utils/Api';
+import groupTimeline from "../js/groupTimeline";
 
 export const getTask = (id) => {
 	new Api('tasks/' + id, {

@@ -22,7 +22,7 @@ import {bindActionCreators} from "redux";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
-import {addTask, deleteTasks, editTask, fetchTasks} from './actionCreator';
+import {addTask, deleteTasks, editTask, fetchTasks} from './store/actionCreator';
 import withRoot from "../../utils/withRoot";
 import store from '../../store';
 import AddTaskDialog from "./dialogs/AddTaskDialog/index";
