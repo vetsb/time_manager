@@ -120,15 +120,6 @@
           "id": 8
         }
       ]
-    },
-    {
-      "title": "Что-то сделать",
-      "description": "Какое-то описание",
-      "time": 10,
-      "measure": 2,
-      "deadline": 1535185320,
-      "id": 2,
-      "groupTimeline": []
     }
   ],
   "timeline": [
@@ -195,14 +186,22 @@
       "createdAt": 1533804171,
       "description": "",
       "id": 8
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "title": "Категория 1",
+      "description": "",
+      "rate": 300,
+      "createdAt": 1533890280
     },
     {
-      "taskId": 2,
-      "seconds": 9,
-      "finished": false,
-      "createdAt": 1533850897,
+      "id": 2,
+      "title": "Категория 2",
       "description": "",
-      "id": 9
+      "rate": 330,
+      "createdAt": 1533890280
     }
   ]
 }
