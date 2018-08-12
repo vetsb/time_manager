@@ -30,7 +30,7 @@ const MAppBar = (props) => {
 							if (typeof props.onClickBackArrow === "function") {
 								props.onClickBackArrow();
 							} else {
-								props.history.push('/');
+								props.history.goBack();
 							}}}>
 						<ArrowBackIcon />
 					</IconButton>

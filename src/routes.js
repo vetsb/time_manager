@@ -2,6 +2,7 @@ import Tasks from './modules/Tasks';
 import Task from './modules/Task';
 import Execution from './modules/Execution';
 import Categories from './modules/Categories';
+import Category from './modules/Category';
 
 const routes = [
 	{
@@ -12,6 +13,11 @@ const routes = [
 	{
 		path: "/categories",
 		component: Categories,
+		isExact: true,
+	},
+	{
+		path: "/categories/:id",
+		component: Category,
 		isExact: true,
 	},
 	{

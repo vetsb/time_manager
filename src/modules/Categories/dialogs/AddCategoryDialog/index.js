@@ -82,7 +82,7 @@ class AddCategoryDialog extends Component {
 							label="Стоимость часа работы"
 							margin="normal"
 							fullWidth
-							defaultValue={isEdit && category.rate !== 0 ? category.rate : ""}/>
+							defaultValue={isEdit && category.rate ? category.rate : ""}/>
 
 						<TextField
 							name="description"

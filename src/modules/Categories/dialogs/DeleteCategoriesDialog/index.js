@@ -6,7 +6,7 @@ const DeleteCategoriesDialog = (props) => {
 		onClose={props.onClose}
 		open={props.open}
 		title="Удаление категорий"
-		text="Вы уверены, что хотите удалить выбранные категории?"
+		text="Вы уверены, что хотите удалить выбранные категории?<br /><br />Все задачи, содержащиеся в этих категории, будут удалены."
 		onClickNegativeButton={props.onClose}
 		onClickPositiveButton={() => {props.onAgree(); props.onClose()}}
 	/>

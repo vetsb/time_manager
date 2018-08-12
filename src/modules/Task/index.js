@@ -164,6 +164,34 @@ class Task extends Component {
 		);
 	};
 
+	renderCategory = () => {
+		const {task} = this.state;
+
+		switch(task.categoryId) {
+			case 0:
+				return "Нажмите, чтобы задать";
+			case undefined:
+				return "Загрузка...";
+			default:
+				return task.categoryTitle;
+		}
+	};
+
+	onClickCategory = () => {
+		const {task} = this.state;
+
+		switch(task.categoryId) {
+			case 0:
+				alert("Сделать диалог выбора категории");
+				break;
+			case undefined:
+				return false;
+			default:
+				this.props.history.push('/categories/' + task.categoryId);
+				break;
+		}
+	};
+
 	render() {
 		const {task} = this.state;
 		const {classes} = this.props;
@@ -202,6 +230,14 @@ class Task extends Component {
 								<ListItemText
 									primary="Осталось"
 									secondary={this.renderLeftTime()}/>
+							</ListItem>
+
+							<ListItem
+								button
+								onClick={this.onClickCategory}>
+								<ListItemText
+									primary="Категория"
+									secondary={this.renderCategory()}/>
 							</ListItem>
 
 							{task.description.length > 0 ? (

@@ -3,6 +3,8 @@ import {secondsToTimeWithMeasure} from "../../../utils/timeFormatter";
 import {getDeadlineSeconds, getLeftSeconds, getSpendSeconds} from "../../Task/js/secondsFormatter";
 import MListItem from "../../../components/MListItem/index";
 
+import PropTypes from 'prop-types';
+
 const renderSecondaryText = (item) => {
 	const leftSeconds = getLeftSeconds(item);
 	const spendSeconds = getSpendSeconds(item);
@@ -32,15 +34,32 @@ const renderSecondaryText = (item) => {
 };
 
 const TaskItem = (props) => {
-	const {item} = props;
+	const {item, visibleSecondaryText} = props;
+
+	if (visibleSecondaryText) {
+		return (
+			<MListItem
+				id={item.id}
+				primaryText={item.title}
+				secondaryText={renderSecondaryText(item)}
+				{...props}/>
+		)
+	}
 
 	return (
 		<MListItem
 			id={item.id}
 			primaryText={item.title}
-			secondaryText={renderSecondaryText(item)}
 			{...props}/>
 	)
+};
+
+TaskItem.defaultProps = {
+	visibleSecondaryText: true,
+};
+
+TaskItem.propTypes = {
+	visibleSecondaryText: PropTypes.bool
 };
 
 export default TaskItem;

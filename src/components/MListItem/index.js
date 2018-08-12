@@ -63,14 +63,14 @@ const MListItem = (props) => {
 
 			<ListItemText primary={primaryText} secondary={secondaryText}/>
 
-			<ListItemSecondaryAction>
-				{visibleCheckbox ? null : (
+			{props.onEdit === undefined ? null : (
+				<ListItemSecondaryAction>
 					<IconButton
 						onClick={() => props.onEdit(id)}>
 						<EditIcon />
 					</IconButton>
-				)}
-			</ListItemSecondaryAction>
+				</ListItemSecondaryAction>
+			)}
 		</ListItem>
 	)
 };

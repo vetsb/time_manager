@@ -8,8 +8,11 @@ export const getTask = (id) => {
 		"_embed": "timeline"
 	}, {}, task => {
 		task.groupTimeline = groupTimeline(Object.create(task.timeline));
+		store.dispatch(setTask(task));
 
-		store.dispatch(getTaskResult(task));
+		if (task.categoryId !== 0) {
+			store.dispatch(getCategoryTitle(task.categoryId));
+		}
 	});
 
 	return {
@@ -17,9 +20,26 @@ export const getTask = (id) => {
 	}
 };
 
-export const getTaskResult = (task) => {
+export const getCategoryTitle = (id) => {
+	new Api('categories/' + id, {}, {}, json => {
+		store.dispatch(setCategoryTitle(json.title));
+	});
+
 	return {
-		type: types.GET_TASK_RESULT,
+		type: types.GET_CATEGORY_TITLE,
+	}
+};
+
+export const setCategoryTitle = (title) => {
+	return {
+		type: types.SET_CATEGORY_TITLE,
+		title: title,
+	}
+};
+
+export const setTask = (task) => {
+	return {
+		type: types.SET_TASK,
 		task: task,
 	}
 };
@@ -38,7 +58,11 @@ export const editTask = (task) => {
 		body: JSON.stringify(task),
 	}, () => {
 		task.timeline = timeline;
-		store.dispatch(getTaskResult(task));
+		store.dispatch(setTask(task));
+
+		if (task.categoryId !== 0) {
+			store.dispatch(getCategoryTitle(task.categoryId));
+		}
 	});
 
 	return {

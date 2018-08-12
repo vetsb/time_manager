@@ -17,24 +17,62 @@ import formDataEntries from 'form-data-entries';
 import dateformat from 'dateformat';
 import styles from './styles';
 import PropTypes from 'prop-types';
+import store from '../../../../store';
+import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
+import withRoot from "../../../../utils/withRoot";
+import {fetchCategories} from "../../../Categories/store/actionCreator";
+import {bindActionCreators} from "redux";
 
 class AddTaskDialog extends Component {
 	form = React.createRef();
+	defaultTask = {
+		measure: 2,
+		categoryId: 0,
+	};
 	state = {
-		task: undefined,
+		task: this.defaultTask,
+		categories: [],
+		isEdit: false,
 	};
 
 	componentDidMount() {
-		this.setState({
-			task: this.props.task
+		const {task} = this.props;
+
+		if (task !== undefined) {
+			this.setState({
+				task: this.props.task,
+				isEdit: true,
+			});
+		}
+
+		this.props.fetchCategories();
+
+		this.unsubscribe = store.subscribe(() => {
+			this.setState({
+				categories: store.getState().categories
+			});
 		});
+	}
+
+	componentWillUnmount() {
+		this.unsubscribe();
 	}
 
 	handleMeasure = event => {
 		this.setState({
 			task: {
 				...this.state.task,
-				measure: MEASURES.indexOf(event.target.value),
+				measure: event.target.value,
+			}
+		});
+	};
+
+	handleCategory = event => {
+		this.setState({
+			task: {
+				...this.state.task,
+				categoryId: event.target.value,
 			}
 		});
 	};
@@ -46,13 +84,14 @@ class AddTaskDialog extends Component {
 			task[name] = value;
 		}
 
-		task.time = parseInt(task.time, 10) || 0;
-		task.measure = MEASURES.indexOf(task.measure);
+		task.time = parseFloat(task.time) || 0;
 		task.deadline = parseInt(Date.parse(task.deadline)/1000, 10) || 0;
+		task.measure = parseInt(task.measure, 10);
+		task.categoryId = parseInt(task.categoryId, 10);
 
 		if (task.title.trim().length !== 0) {
 			this.setState({
-				task: this.props.task === undefined ? undefined : task
+				task: this.props.task === undefined ? this.defaultTask : task
 			});
 
 			this.props.onSubmit(task);
@@ -61,15 +100,17 @@ class AddTaskDialog extends Component {
 	};
 
 	handleEnter = (task) => {
-		this.setState({
-			task: task
-		});
+		if (task !== undefined) {
+			this.setState({
+				task: task,
+				isEdit: true,
+			});
+		}
 	};
 
 	render() {
 		const {classes} = this.props;
-		const {task} = this.state;
-		const isEdit = task !== undefined;
+		const {task, isEdit, categories} = this.state;
 
 		return (
 			<Dialog
@@ -103,6 +144,24 @@ class AddTaskDialog extends Component {
 							rows="4"
 							defaultValue={isEdit ? task.description : ""}/>
 
+						<TextField
+							select
+							name="categoryId"
+							label="Категория"
+							margin="normal"
+							fullWidth
+							onChange={this.handleCategory}
+							value={task.categoryId}>
+							<MenuItem value={0} key={0}>Не указана</MenuItem>
+							{categories.length > 0 ?
+								categories.map(item => {
+									return <MenuItem value={item.id} key={item.id}>{item.title}</MenuItem>
+								})
+								:
+								null
+							}
+						</TextField>
+
 						<Grid container spacing={24}>
 							<Grid item xs={12} sm={8}>
 								<TextField
@@ -119,12 +178,12 @@ class AddTaskDialog extends Component {
 									name="measure"
 									label="Ед. измерения"
 									margin="normal"
-									value={isEdit ? MEASURES[task.measure] : MEASURES[2]}
+									value={task.measure}
 									onChange={this.handleMeasure}
 									fullWidth>
-									{MEASURES.map(item => {
+									{MEASURES.map((item, key) => {
 										return (
-											<MenuItem key={item} value={item}>
+											<MenuItem key={item} value={key}>
 												{item}
 											</MenuItem>
 										)
@@ -142,7 +201,7 @@ class AddTaskDialog extends Component {
 								shrink: true,
 							}}
 							fullWidth
-							defaultValue={task === undefined || task.deadline === 0 ? null : dateformat(new Date(parseInt(task.deadline, 10)*1000), 'yyyy-mm-dd"T"HH:MM')}/>
+							defaultValue={task === undefined || task.deadline === undefined || task.deadline === 0 ? null : dateformat(new Date(parseInt(task.deadline, 10)*1000), 'yyyy-mm-dd"T"HH:MM')}/>
 					</form>
 				</DialogContent>
 
@@ -164,4 +223,16 @@ AddTaskDialog.propTypes = {
 	open: PropTypes.bool.isRequired,
 };
 
-export default withStyles(styles)(AddTaskDialog);
+function mapStateToProps(state) {
+	return {
+		categories: state.categories
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators({
+		fetchCategories: fetchCategories,
+	}, dispatch);
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withRoot(withStyles(styles)(AddTaskDialog))));
