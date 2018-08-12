@@ -23,17 +23,21 @@ const App = (props) => {
 	return (
 		<Router history={history}>
 			<Grid className={classes.wrapper}>
-				<Grid container className={classes.gridContainer}>
-					<Grid className={classes.gridMenu}>
-						<Menu history={history}/>
-					</Grid>
+				{/*<Grid container className={classes.gridContainer}>*/}
+					{/*<Grid className={classes.gridMenu}>*/}
+						{/*<Menu history={history}/>*/}
+					{/*</Grid>*/}
 
-					<Grid className={classes.gridContent}>
-						<Switch>
-							{routes.map((item, key) => <Route key={key} exact={item.isExact} path={item.path} component={item.component}/>)}
-						</Switch>
-					</Grid>
-				</Grid>
+					{/*<Grid className={classes.gridContent}>*/}
+						{/*<Switch>*/}
+							{/*{routes.map((item, key) => <Route key={key} exact={item.isExact} path={item.path} component={item.component}/>)}*/}
+						{/*</Switch>*/}
+					{/*</Grid>*/}
+				{/*</Grid>*/}
+
+				<Switch>
+					{routes.map((item, key) => <Route key={key} exact={item.isExact} path={item.path} component={item.component}/>)}
+				</Switch>
 			</Grid>
 		</Router>
 	)

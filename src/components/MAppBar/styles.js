@@ -1,7 +1,7 @@
 const styles = theme => ({
-	appBar: {
-		width: 'calc(100% - 270px)',
-	},
+	// appBar: {
+	// 	width: 'calc(100% - 270px)',
+	// },
 	toolbarTitle: {
 		flex: 1,
 	},
