@@ -33,10 +33,8 @@ class Tasks extends Component {
 			editTask: false,
 			deleteTasks: false,
 		},
-		editTask: {},
+		editTaskId: 0,
 	};
-
-	pressTimer = null;
 
 	componentDidMount() {
 		this.props.fetchTasks();
@@ -124,7 +122,7 @@ class Tasks extends Component {
 				...this.state.openDialogs,
 				editTask: false,
 			},
-			editTask: {}
+			editTaskId: 0
 		});
 	};
 
@@ -190,9 +188,9 @@ class Tasks extends Component {
 
 
 
-	handleEdit = (task) => {
+	handleEdit = (id) => {
 		this.setState({
-			editTask: task,
+			editTaskId: id,
 		}, this.openEditTaskDialog);
 	};
 
@@ -255,9 +253,9 @@ class Tasks extends Component {
 					open={this.state.openDialogs.addTask}
 					onSubmit={this.addTask}/>
 
-				{this.state.editTask.id !== undefined ? (
+				{this.state.editTaskId !== 0 ? (
 					<AddTaskDialog
-						task={this.state.editTask}
+						task={this.state.tasks.filter(item => item.id === this.state.editTaskId)[0]}
 						onClose={this.closeEditTaskDialog}
 						open={this.state.openDialogs.editTask}
 						onSubmit={this.editTask}/>

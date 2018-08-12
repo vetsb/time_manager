@@ -8,7 +8,6 @@ import {withStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 
 import routes from '../../routes';
-import Menu from '../Menu';
 import withRoot from "../../utils/withRoot";
 import styles from './styles';
 

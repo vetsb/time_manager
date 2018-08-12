@@ -1,11 +1,17 @@
 import Tasks from './modules/Tasks';
 import Task from './modules/Task';
 import Execution from './modules/Execution';
+import Categories from './modules/Categories';
 
 const routes = [
 	{
 		path: "/",
 		component: Tasks,
+		isExact: true,
+	},
+	{
+		path: "/categories",
+		component: Categories,
 		isExact: true,
 	},
 	{
