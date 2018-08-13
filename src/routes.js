@@ -10,11 +10,6 @@ const routes = [
 		isExact: true,
 	},
 	{
-		path: "/categories",
-		component: Categories,
-		isExact: true,
-	},
-	{
 		path: "/:id",
 		component: Task,
 		isExact: true,
